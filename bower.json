@@ -1,0 +1,22 @@
+{
+  "name": "miclinica",
+  "version": "0.0.0",
+  "homepage": "https://github.com/codingchik/miclinica",
+  "authors": [
+    "codingchik <anabel.cuevas4@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "vendor/assets/bower_components"
+  ],
+  "dependencies": {
+    "angular": "~1.3.2",
+    "angular-ui-router": "~0.2.12",
+    "bootstrap": "~3.3.1"
+  }
+}
