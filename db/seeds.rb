@@ -5,3 +5,9 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+Clinic.delete_all
+ clinics = Clinic.create([
+  { title: "Nunez Dental Care", street: "1234 street", city: "Pasadena"},
+  { title: "Sanchez Dental Care", street: "567 Street", city: "Los Angeles"},
+  ])

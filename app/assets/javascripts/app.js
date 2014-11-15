@@ -1,4 +1,4 @@
-angular.module('miClinica', ['ui.router', 'templates'])
+angular.module('miClinica', ['ui.router'])
 .config([
 '$stateProvider',
 '$urlRouterProvider',
@@ -7,22 +7,40 @@ function($stateProvider, $urlRouterProvider) {
   $stateProvider
     .state('home', {
       url: '/home',
-      templateUrl: 'home/_home.html',
-      controller: 'MainCtrl'
+      templateUrl: '/home.html',
+      controller: 'MainCtrl',
+      resolve: {
+        clinicPromise: ['clinics', function(clinics){
+          return clinics.getAll();
+        }]
+      }
     })
   .state('clinics', {
     url: '/clinics/{id}',
-    templateUrl: 'clinics/_clinics.html',
+    templateUrl: '/clinics.html',
     controller: 'ClinicsCtrl'
   });
 
   $urlRouterProvider.otherwise('home');
 }])
 
-.factory('clinics', [function(){
+.factory('clinics', ['$http', function($http){
   var o = {
     clinics: []
   };
+
+  o.getAll = function() {
+    return $http.get('/clinics.json').success(function(data){
+      angular.copy(data, o.clinics);
+    });
+  };
+
+   o.create = function(post) {
+    return $http.post('/clinics.json', post).success(function(data){
+      o.clinics.push(data);
+    });
+  };
+
   return o;
 }])
 .controller('ClinicsCtrl', [
@@ -36,7 +54,7 @@ function($scope, $stateParams, clinics){
   
   $scope.addReview = function(){
     if($scope.body === '') { return; }
-    $scope.clinic.reviews.push({
+    clinics.create({
     body: $scope.body,
     author: 'user',
     upvotes: 0
@@ -57,7 +75,7 @@ function($scope, $stateParams, clinics){
 
     $scope.addClinic = function (){
       if($scope.title === '') { return; }
-      $scope.clinics.push({
+      clinics.create({
         title: $scope.title,
         category: $scope.category,
         street: $scope.street,

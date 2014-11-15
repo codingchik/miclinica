@@ -1,19 +1,227 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Miclinica</title>
+   <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MI CLINICA</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
   <%= stylesheet_link_tag    'application', media: 'all' %>
   <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
-</head>
 
+</head>
+<header class="navbar navbar-bright navbar-fixed-top" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">Home</a>
+    </div>
+    <nav class="collapse navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">
+        
+        <li>
+          <a href="#">Login</a>
+        </li>
+        <li>
+          <a href="#">Logout</a>
+        </li>
+        <li>
+          <a href="#">More Info</a>
+        </li>
+        <li>
+          <a href="#">Help</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-right navbar-nav">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-search"></i></a>
+          <ul class="dropdown-menu" style="padding:12px;">
+            <form class="form-inline">
+              <button type="submit" class="btn btn-default pull-right"><i class="glyphicon glyphicon-search"></i></button><input type="text" class="form-control pull-left" placeholder="Search">
+            </form>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+  <title>MI CLINICA</title>
+</header>
 <body ng-app="miClinica">
+<div id="masthead">  
+  <div class="container">
     <div class="row">
+      <div class="col-md-7">
+      </div>
+      <div class="row">
      <div class="col-md-6 col-md-offset-3">
       <ui-view></ui-view>
     </div>
     </div>
+      </div>
+    </div> 
+  </div>
+ 
+  <footer>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6">
+          <h1>Follow Us</h1>
+      <div class="btn-group">
+       <a class="btn btn-twitter btn-lg" href="https://twitter.com/codingchicks"><i class="icon-twitter icon-large"></i> Twitter</a>
+     <a class="btn btn-facebook btn-lg" href="https://www.facebook.com/b.e.ll.ll.e4"><i class="icon-facebook icon-large"></i> Facebook</a>
+     <a class="btn btn-google-plus btn-lg" href="https://github.com/codingchik"><i class="icon-google-plus icon-large"></i> Github</a>
+      </div>
+       <ul class="list-inline">
+          <li><i class="icon-facebook icon-2x"></i></li>
+          <li><i class="icon-twitter icon-2x"></i></li>
+          <li><i class="icon-google-plus icon-2x"></i></li>
+          <li><i class="icon-pinterest icon-2x"></i></li>
+        </ul>
+      </div>
+      <div class="col-sm-6">
+          <p class="pull-right">Built with <i class="icon-heart-empty"></i> at <a href="http://www.bootply.com">Bootply</a></p>      
+      </div>
+    </div>
+  </div>
+</footer>
+<script type="text/ng-template" id="/home.html">
+    <div class="page-header">
+    <h1>Mi Clinica</h1>
+    </div>
+
+    <div ng-repeat="clinic in clinics | orderBy: '-upvotes'">
+        <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(clinic)"></span>
+        <span class="clinicshow">
+        <a ng-show="clinic.link" href="{{clinic.link}}">
+          {{clinic.title}}
+        </a>
+
+        <span ng-hide="clinic.link">
+          {{clinic.title}}
+        </span>
+        <span>
+          <a href="#/clinics/{{$index}}">Reviews</a>
+        </span>
+        </span>
+      
+         - upvotes: {{clinic.upvotes}}
+         {{clinic.street}}
+         {{clinic.city}}
+         {{clinic.zip}}
+      
+      </div>
 
 
+      <form ng-submit="addClinic()" style="margin-top: 150px;
+margin-bottom: 150px;">
+        <h3>Add a Clinic</h3>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Title" ng-model="title" required></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Category" ng-model="category" required></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Address" ng-model="street" required></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="City" ng-model="city" required></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Zip Code" ng-model="zip" required></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Area Served" ng-model="areaServed"></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Hours" ng-model="openHours"></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Phone Number" ng-model="phone" required></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Languages" ng-model="languages"></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="Pay Scale" ng-model="payScale"></input>
+        </div>
+        <div class="form-group">
+        <input type="text" class="form-control" placeholder="URL to Website" ng-model="link"></input>
+        </div>
+        <button type="submit" class="btn btn-secondary">Add Clinic</button>
+      </form>
+  </script>
+
+  <script type="text/ng-template" id="/clinics.html">
+    <div class="page-header">
+    <h3>Reviews for
+      <a ng-show="clinic.link" href="{{clinic.link}}">
+      {{clinic.title}}
+      </a>
+      <span ng-hide="clinic.link">
+      {{clinic.title}}
+      </span>
+      
+       {{clinic.street}}
+         {{clinic.city}}
+         {{clinic.zip}}
+         {{clinic.category}}
+         {{clinic.areaServed}}
+         {{clinic.openHours}}
+         {{clinic.phone}}
+         {{clinic.languages}}
+         {{clinic.payScale}}
+      
+      
+    </h3>
+    </div>
+
+    <div ng-repeat="review in clinic.reviews | orderBy:'-upvotes'">
+    <span class="glyphicon glyphicon-thumbs-up"
+      ng-click="incrementUpvotes(review)"></span>
+    {{review.upvotes}} - by {{review.author}}
+    <span style="font-size:20px; margin-left:10px;">
+      {{review.body}}
+    </span>
+    </div>
+    
+    <form ng-submit="addReview()"
+    style="margin-top:30px;">
+    <h3>Add a new review</h3>
+
+    <div class="form-group">
+      <input type="text"
+      class="form-control"
+      placeholder="Review"
+      ng-model="body"></input>
+    </div>
+    <button type="submit" class="btn btn-primary">Post</button>
+    </form>
+  </script>
   </body>
+
+
 </html>
